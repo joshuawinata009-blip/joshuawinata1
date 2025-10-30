@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kartu Fakta Menarik — Peradaban Romawi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card-fakta {
+      background: #fff;
+      width: 360px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      overflow: hidden;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .card-fakta img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: opacity 0.4s ease;
+    }
+
+    .content {
+      padding: 16px 20px;
+    }
+
+    h2 {
+      margin-bottom: 6px;
+      color: #333;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .era-title {
+      font-weight: bold;
+      color: #2d5b91;
+      margin: 10px 0;
+    }
+
+    ul {
+      text-align: left;
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    .fade-out {
+      opacity: 0;
+    }
+
+    .btn-next {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 14px 0;
+      transition: background 0.3s;
+    }
+
+    .btn-next:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card-fakta">
+    <img id="factImage" src="regnum romanum.png" alt="Ilustrasi peradaban Roma" />
+    <div class="content">
+      <h2>Fakta Menarik tentang Peradaban Roma</h2>
+      <p class="subtitle">Pelajari fakta menarik tiap era Romawi secara berurutan.</p>
+      <div id="eraTitle" class="era-title">🟠 Era Kerajaan Roma</div>
+      <ul id="factList">
+        <li>Romulus dianggap sebagai pendiri dan raja pertama Roma setelah membunuh saudaranya Remus.</li>
+        <li>Raja Numa Pompilius dikenal memperkenalkan banyak ritual keagamaan dan sistem hukum Roma awal.</li>
+        <li>Kota Roma pada masa kerajaan dikelilingi tembok dan mulai membangun saluran air sederhana untuk penduduknya.</li>
+        <li>Kerajaan Roma berakhir ketika rakyat menggulingkan Raja Tarquinius Superbus karena pemerintahannya yang kejam.</li>
+      </ul>
+      <button id="nextFact" class="btn-next">➡️ Fakta Selanjutnya</button>
+    </div>
+  </div>
+
+  <script>
+    const factData = [
+      {
+        era: "🟠 Era Kerajaan Roma",
+        image: "regnum romanum.png",
+        facts: [
+          "Romulus dianggap sebagai pendiri dan raja pertama Roma setelah membunuh saudaranya Remus.",
+          "Raja Numa Pompilius dikenal memperkenalkan banyak ritual keagamaan dan sistem hukum Roma awal.",
+          "Kota Roma pada masa kerajaan dikelilingi tembok dan mulai membangun saluran air sederhana untuk penduduknya.",
+          "Kerajaan Roma berakhir ketika rakyat menggulingkan Raja Tarquinius Superbus karena pemerintahannya yang kejam."
+        ]
+      },
+      {
+        era: "🟡 Era Republik Roma",
+        image: "republica romana.png",
+        facts: [
+          "Republik Roma dipimpin oleh dua konsul yang dipilih setiap tahun untuk mencegah kekuasaan absolut.",
+          "Senat menjadi lembaga politik terkuat yang mengatur kebijakan luar negeri dan keuangan negara.",
+          "Julius Caesar memperluas wilayah Roma hingga Galia dan akhirnya menjadi diktator seumur hidup.",
+          "Krisis politik dan perang saudara menyebabkan runtuhnya Republik Roma dan lahirnya Kekaisaran Roma di bawah Augustus."
+        ]
+      },
+      {
+        era: "🔴 Era Kekaisaran Roma",
+        image: "roman empire.jpg",
+        facts: [
+          "Augustus menjadi kaisar pertama Roma dan memulai masa keemasan yang disebut Pax Romana.",
+          "Koloseum dibangun sebagai arena hiburan untuk pertarungan gladiator dan acara publik.",
+          "Kekaisaran Romawi mencapai puncak wilayah terluasnya pada masa Kaisar Trajan.",
+          "Agama Kristen mulai berkembang pesat dan diakui secara resmi oleh Kaisar Konstantinus."
+        ]
+      },
+      {
+        era: "🟣 Era Kekaisaran Byzantium",
+        image: "bynzantine flag.jpg",
+        facts: [
+          "Kekaisaran Byzantium merupakan penerus Kekaisaran Romawi Timur dengan ibukota di Konstantinopel.",
+          "Menjadi pusat perkembangan Gereja Ortodoks Timur dan terlibat dalam Skisma Besar tahun 1054.",
+          "Bertahan lebih dari 1.000 tahun hingga jatuh ke tangan Kesultanan Utsmaniyah pada tahun 1453 M.",
+          "Byzantium meninggalkan warisan budaya besar seperti mosaik, Hagia Sophia, dan pelestarian ilmu Yunani-Romawi."
+        ]
+      }
+    ];
+
+    let currentEra = 0;
+
+    const factImage = document.getElementById("factImage");
+    const eraTitle = document.getElementById("eraTitle");
+    const factList = document.getElementById("factList");
+    const nextBtn = document.getElementById("nextFact");
+
+    nextBtn.addEventListener("click", () => {
+      factImage.classList.add("fade-out");
+      factList.classList.add("fade-out");
+      eraTitle.classList.add("fade-out");
+
+      setTimeout(() => {
+        currentEra = (currentEra + 1) % factData.length;
+        const current = factData[currentEra];
+        factImage.src = current.image;
+        eraTitle.textContent = current.era;
+        factList.innerHTML = current.facts.map(f => `<li>${f}</li>`).join("");
+
+        factImage.classList.remove("fade-out");
+        factList.classList.remove("fade-out");
+        eraTitle.classList.remove("fade-out");
+      }, 400);
+    });
+  </script>
+
+</body>
+</html>
